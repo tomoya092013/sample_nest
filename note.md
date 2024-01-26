@@ -9,18 +9,26 @@ nest new プロジェクト名
 # nest g module tasks
 CREATE src/tasks/tasks.module.ts
 UPDATE src/app.module.ts
-```
 
-```
 # nest g controller tasks --no-spec
 CREATE src/tasks/tasks.controller.ts
 UPDATE src/tasks/tasks.module.ts
-```
 
-```
 # nest g service tasks --no-spec
 CREATE src/tasks/tasks.service.ts
 UPDATE src/tasks/tasks.module.ts
+```
+
+```idをuuidで自動採番
+# npm i uuid
+```
+
+```バリデーション
+# npm i class-transformer class-validator
+
+--saveをつけなくてもdependenciesに追加された
+だからどっちでもいいみたい
+https://github.com/typestack/class-validator?tab=readme-ov-file#validation-decorators
 ```
 
 - app.module
@@ -43,6 +51,5 @@ UPDATE src/tasks/tasks.module.ts
   controller は service を必要とする →service がないと成り立たない（service に依存している）
   DI をしないと controller で service クラスをインスタンス化しないといけない
   → それを避けるため外部でインスタンスを作成しておく（依存性の注入）
-
   - module の providers に service を記載すると DI コンテナに登録される
-    → インスタンス化せずに controller で service のメソッドが使えるようになる
+    → インスタンス化せずに controller で service のメソッドが使えるようになる(すごい)
