@@ -4,11 +4,12 @@ import {
   Delete,
   Get,
   Param,
+  ParseUUIDPipe,
   Patch,
   Post,
 } from '@nestjs/common';
 
-import { TaskStatus } from './task-status.enum';
+import { CreateTaskDto } from './dto/create-task.dto';
 import { Task } from './task.model';
 import { TasksService } from './tasks.service';
 
@@ -21,27 +22,22 @@ export class TasksController {
   }
 
   @Get(':id')
-  findById(@Param('id') id: number): Task {
+  findById(@Param('id', ParseUUIDPipe) id: number): Task {
     return this.tasksService.findById(id);
   }
 
   @Post()
-  create(@Body('id') id: number, @Body('name') name: string): Task {
-    const task: Task = {
-      id,
-      name,
-      status: TaskStatus.IN_PROGRESS,
-    };
-    return this.tasksService.create(task);
+  create(@Body() createTaskDto: CreateTaskDto): Task {
+    return this.tasksService.create(createTaskDto);
   }
 
   @Patch(':id')
-  update(@Param('id') id: number): Task {
+  update(@Param('id', ParseUUIDPipe) id: number): Task {
     return this.tasksService.update(id);
   }
 
   @Delete(':id')
-  delete(@Param('id') id: number) {
+  delete(@Param('id', ParseUUIDPipe) id: number) {
     this.tasksService.delete(id);
   }
 }
