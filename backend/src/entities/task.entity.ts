@@ -13,9 +13,9 @@ export class Task {
   @Column()
   status: TaskStatus;
 
-  @Column()
-  created_at: string;
+  @Column({ type: 'datetime' })
+  createdAt: Date;
 
-  @Column()
-  updated_at: string;
+  @Column({ type: 'datetime' })
+  updatedAt: Date;
 }

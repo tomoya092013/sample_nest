@@ -9,35 +9,36 @@ import {
   Post,
 } from '@nestjs/common';
 
+import { Task } from '../entities/task.entity';
 import { CreateTaskDto } from './dto/create-task.dto';
-import { Task } from './task.model';
 import { TasksService } from './tasks.service';
 
 @Controller('tasks')
 export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
+
+  @Post()
+  async create(@Body() createTaskDto: CreateTaskDto): Promise<Task> {
+    return await this.tasksService.createTask(createTaskDto);
+  }
+
   @Get()
-  findAll(): Task[] {
-    return this.tasksService.findAll();
+  async findAll(): Promise<Task[]> {
+    return await this.tasksService.findAll();
   }
 
   @Get(':id')
-  findById(@Param('id', ParseUUIDPipe) id: number): Task {
-    return this.tasksService.findById(id);
-  }
-
-  @Post()
-  create(@Body() createTaskDto: CreateTaskDto): Task {
-    return this.tasksService.create(createTaskDto);
+  async findById(@Param('id', ParseUUIDPipe) id: string): Promise<Task> {
+    return await this.tasksService.find(id);
   }
 
   @Patch(':id')
-  update(@Param('id', ParseUUIDPipe) id: number): Task {
-    return this.tasksService.update(id);
+  async update(@Param('id', ParseUUIDPipe) id: string): Promise<Task> {
+    return await this.tasksService.updateTask(id);
   }
 
   @Delete(':id')
-  delete(@Param('id', ParseUUIDPipe) id: number) {
-    this.tasksService.delete(id);
+  async delete(@Param('id', ParseUUIDPipe) id: string): Promise<string> {
+    return await this.tasksService.delete(id);
   }
 }

@@ -1,7 +1,5 @@
 import { DataSource } from 'typeorm';
 
-import { Task } from './entities/task.entity';
-
 export const AppDataSource = new DataSource({
   type: 'mysql',
   host: 'db',
@@ -11,6 +9,6 @@ export const AppDataSource = new DataSource({
   database: 'sample_nest',
   logging: true, // コンソール画面に実行したSQLが表示される
   synchronize: false, // true にすると migration が自動で実行されます。
-  entities: [Task], // エンティティクラスを指定する（複数の場合はカンマで区切る）
+  entities: ['dist/entities/*.entity.js'], // エンティティクラスを指定する（複数の場合はカンマで区切る）
   migrations: ['dist/database/migrations/*.js'], // dist ディレクトリ内の js ファイルを指定する
 });

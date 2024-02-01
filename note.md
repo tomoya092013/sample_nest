@@ -31,7 +31,6 @@ Migration /backend/src/database/migrations/1706583358920-CreateTask.ts has been 
 
 テーブル作成
 # npx typeorm-ts-node-commonjs migration:run -d src/data-source.ts
-# npx typeorm-ts-node-commonjs migration:run -d src/data-source.ts
 query: SELECT VERSION() AS `version`
 query: SELECT * FROM `INFORMATION_SCHEMA`.`COLUMNS` WHERE `TABLE_SCHEMA` = 'sample_nest' AND `TABLE_NAME` = 'migrations'
 query: SELECT * FROM `sample_nest`.`migrations` `migrations` ORDER BY `id` DESC
@@ -51,6 +50,22 @@ query:
 
 query: INSERT INTO `sample_nest`.`migrations`(`timestamp`, `name`) VALUES (?, ?) -- PARAMETERS: [1706583358920,"CreateTask1706583358920"]
 Migration CreateTask1706583358920 has been  executed successfully.
+query: COMMIT
+
+テーブル削除
+# npx typeorm-ts-node-commonjs migration:revert -d src/data-source.ts
+query: SELECT VERSION() AS `version`
+query: SELECT * FROM `INFORMATION_SCHEMA`.`COLUMNS` WHERE `TABLE_SCHEMA` = 'sample_nest' AND `TABLE_NAME` = 'migrations'
+query: SELECT * FROM `sample_nest`.`migrations` `migrations` ORDER BY `id` DESC
+1 migrations are already loaded in the database.
+CreateTask1706589812764 is the last executed migration. It was executed on Tue Jan 30 2024 04:43:32 GMT+0000 (Coordinated Universal Time).
+Now reverting it...
+query: START TRANSACTION
+query:
+            DROP TABLE `tasks`
+
+query: DELETE FROM `sample_nest`.`migrations` WHERE `timestamp` = ? AND `name` = ? -- PARAMETERS: [1706589812764,"CreateTask1706589812764"]
+Migration CreateTask1706589812764 has been  reverted successfully.
 query: COMMIT
 ```
 
@@ -108,3 +123,6 @@ ORM(オブジェクトリレーショナルマッピング)
   https://pote-chil.com/blog/nestjs-typeorm-migration
   src/data-source.ts を作成
   docker で接続する際は DB と port 注意
+
+- findOne → findOneBy へ変わった
+  https://qiita.com/hrkmtsmt/items/70bf78d968880f14c619
